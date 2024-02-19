@@ -155,7 +155,7 @@ STD_enuErrorStatus_t GPIO_enuInitPin(GPIO_strPinConfig_t* Add_pstConfig)
 	return Local_enuErrorStatus;
 }
 
-STD_enuErrorStatus_t GPIO_u8SetPinValue(void* port, u8 pin, u8 value)
+STD_enuErrorStatus_t GPIO_enuSetPin(void* port, u8 pin, u8 value)
 {
 	STD_enuErrorStatus_t Local_enuErrorStatus = STD_enuOk;
 

@@ -233,7 +233,7 @@ STD_enuErrorStatus_t set_pin_pull(void* port, u8 pin, u8 pull_type)
 	if(pull_type <= PULLDOWN)
 	{
 		loc_u32tempPull = ((GPIO_t*)port)->PUPDR;
-		loc_u32tempPull	&= ~(PUPDR_PIN_MASK << (OSPEEDR_PIN_BITS*pin));
+		loc_u32tempPull	&= ~(PUPDR_PIN_MASK << (PUPDR_PIN_BITS*pin));
 		loc_u32tempPull	|= pull_type << (PUPDR_PIN_BITS*pin);
 		((GPIO_t*)port)->PUPDR = loc_u32tempPull;
 	}

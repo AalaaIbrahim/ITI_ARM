@@ -122,7 +122,7 @@ typedef struct
 #define PLL_M_MIN_VALUE		   2
 #define PLL_M_MAX_VALUE		   63
 #define PLL_M_OFFSET		   0
-#define PLL_M_MASK 			   0xFFFFFFE0
+#define PLL_M_MASK 			   0xFFFFFFC0
 
 #define PLL_CLK_OFFSET		   22
 #define PLL_CLK_MASK 		   0xFFDFFFFF

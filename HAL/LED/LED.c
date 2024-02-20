@@ -37,9 +37,13 @@ void LED_Init(void)
     u8 loc_iterator = ZERO;
     GPIO_strPinConfig_t temp_pinConfig;
 
+	u8 on_value = GPIO_PIN_HIGH;
+	u8 off_value = GPIO_PIN_LOW;
+
     temp_pinConfig.mode = OUTPUT_PIN;
-    temp_pinConfig.modeCfg.outputCfg.pull = OUTPUT_PUSH_PULL;
+    temp_pinConfig.modeCfg.outputCfg.pull = PULLDOWN;
     temp_pinConfig.modeCfg.outputCfg.speed = OUTPUT_MEDIUM_SPEED;
+	temp_pinConfig.modeCfg.outputCfg.type = OUTPUT_PUSH_PULL;
         
     for(loc_iterator=ZERO; loc_iterator<NUMBER_OF_LEDS; loc_iterator++)
     {
@@ -54,49 +58,37 @@ void LED_Init(void)
         temp_pinConfig.port = LED_stConfigArr[loc_iterator].port;
         temp_pinConfig.pin = LED_stConfigArr[loc_iterator].pin;
 
+		GPIO_enuInitPin(&temp_pinConfig);
+
     	if(LED_enuActiveHigh == LED_stConfigArr[loc_iterator].active_state)
     	{
-            temp_pinConfig.modeCfg.outputCfg.type = FLOATING;
-
-            GPIO_enuInitPin(&temp_pinConfig);
-
-    	    if(LED_enuOff == LED_stConfigArr[loc_iterator].initial_state)
-    	    {
-    	    	/* Turn the LED initially Off */
-    	        GPIO_enuSetPin(LED_stConfigArr[loc_iterator].port, LED_stConfigArr[loc_iterator].pin, GPIO_PIN_LOW);
-    	    }
-    	    else if(LED_enuOn == LED_stConfigArr[loc_iterator].initial_state)
-    	    {
-		        /* Turn the LED initially On */
-    	    	GPIO_enuSetPin(LED_stConfigArr[loc_iterator].port, LED_stConfigArr[loc_iterator].pin, GPIO_PIN_HIGH);
-    	    }
-    	    else
-    	    {
-    	    	/* Do Nothing */
-    	    }
+            on_value = GPIO_PIN_HIGH;
+			off_value = GPIO_PIN_LOW;
     	}
     	else if(LED_enuActiveLow == LED_stConfigArr[loc_iterator].active_state)
     	{
-            temp_pinConfig.modeCfg.outputCfg.type = FLOATING;
-
-            GPIO_enuInitPin(&temp_pinConfig);
-
-    	    if(LED_enuOff == LED_stConfigArr[loc_iterator].initial_state)
-    	    {
-		        /* Turn the LED initially Off */
-    	    	GPIO_enuSetPin(LED_stConfigArr[loc_iterator].port, LED_stConfigArr[loc_iterator].pin, GPIO_PIN_HIGH);
-    	    }
-    	    else if(LED_enuOn == LED_stConfigArr[loc_iterator].initial_state)
-    	    {
-		        /* Turn the LED initially On */
-    	    	GPIO_enuSetPin(LED_stConfigArr[loc_iterator].port, LED_stConfigArr[loc_iterator].pin, GPIO_PIN_LOW);
-    	    }
-    	    else
-    	    {
-    	    	/* Do Nothing */
-    	    }
+    	    on_value = GPIO_PIN_LOW;
+			off_value = GPIO_PIN_HIGH;
     	}
-    	
+		else
+		{
+			/* Do Nothing */
+		}
+
+		if(LED_enuOff == LED_stConfigArr[loc_iterator].initial_state)
+    	{
+    		/* Turn the LED initially Off */
+    	    GPIO_enuSetPin(LED_stConfigArr[loc_iterator].port, LED_stConfigArr[loc_iterator].pin, off_value);
+    	}
+    	else if(LED_enuOn == LED_stConfigArr[loc_iterator].initial_state)
+    	{
+		    /* Turn the LED initially On */
+    		GPIO_enuSetPin(LED_stConfigArr[loc_iterator].port, LED_stConfigArr[loc_iterator].pin, on_value);
+    	}
+    	else
+    	{
+    		/* Do Nothing */
+    	}
     }
 }
 

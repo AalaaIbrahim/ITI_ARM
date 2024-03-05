@@ -22,25 +22,6 @@
 #define IRQ_NOT_PENDING		  0X0
 #define IRQ_PENDING			  0X1
 
-/* GPIO output pin value options */
-#define GPIO_PIN_LOW		  0
-#define GPIO_PIN_HIGH		  1
-
-/* GPIO output speed options */
-#define OUTPUT_LOW_SPEED      0X0
-#define OUTPUT_MEDIUM_SPEED   0X1
-#define OUTPUT_HIGH_SPEED     0X2
-#define OUTPUT_VHIGH_SPEED    0X3
-
-/* GPIO output pin type options */
-#define OUTPUT_PUSH_PULL  	  0X0
-#define OUTPUT_OPEN_DRAIN	  0X1
-
-/* GPIO pin pull type options */
-#define FLOATING		  	  0X0
-#define PULLUP				  0X1
-#define PULLDOWN		 	  0X2
-
 /*===========================================================================================================*/
 /*												     Types		 										     */
 /*===========================================================================================================*/
@@ -178,6 +159,7 @@ STD_enuErrorStatus_t NVIC_GetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Sta
  *
  * @param[in]  Copy_enuIRQn   	: the Interrupt Request's index
  * @param[out] Copy_u8Priority 	: the desired priority level
+ *                                (this input represents the group priority and subgroup priority bits)
  *
  * @return STD_enuErrorStatus_t : STD_enuOk 		  : Successful Operation
  *                                STD_enuNullPtr      : Add_pu8Status is a null pointer
@@ -197,4 +179,4 @@ STD_enuErrorStatus_t NVIC_SetPriority(NVIC_IRQn_t Copy_enuIRQn, u8 Copy_u8Priori
  */
 STD_enuErrorStatus_t NVIC_GetPriority(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Priority);
 
-#endif /* RCC_RCC_H_ */
+#endif /* NVIC_H_ */

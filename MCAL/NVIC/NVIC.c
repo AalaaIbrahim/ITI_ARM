@@ -22,7 +22,6 @@
 #define PRIORITY_MASK		0X000000F0
 #define PRIORITY_BITS       4
 #define IRQ_PER_PRI_REG     4
-
 #define MIN_PRI_VAL         15
 
 /*===========================================================================================================*/
@@ -44,13 +43,6 @@ typedef struct
     u32 RESERVED5[644];        /* Reserved space */
     volatile u32 STIR;         /* Software Trigger Interrupt Register */
 } NVIC_t;
-
-/*===========================================================================================================*/
-/*										  	   Private Functions											 */
-/*===========================================================================================================*/
-static STD_enuErrorStatus_t set_output_speed(void* port, u8 pin, u8 speed);
-static STD_enuErrorStatus_t set_pin_pull(void* port, u8 pin, u8 pull_type);
-static STD_enuErrorStatus_t set_af(void* port, u8 pin, u8 af_index);
 
 /*===========================================================================================================*/
 /*										  	  API Implementations											 */

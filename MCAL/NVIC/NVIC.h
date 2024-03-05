@@ -19,8 +19,17 @@
 /**
  * IRQ pending status options
  */
-#define IRQ_NOT_PENDING		  0X0
-#define IRQ_PENDING			  0X1
+#define IRQ_NOT_PENDING		    0X0
+#define IRQ_PENDING			    0X1
+
+/**
+ * Options for group (preemption) priority number of bits
+ */
+#define FOUR_GROUP_PRI_BITS     0x00000000
+#define THREE_GROUP_PRI_BITS    0x00000400
+#define TWO_GROUP_PRI_BITS      0x00000500
+#define ONE_GROUP_PRI_BITS      0x00000600
+#define ZERO_GROUP_PRI_BITS     0x00000700
 
 /*===========================================================================================================*/
 /*												     Types		 										     */
@@ -155,10 +164,26 @@ STD_enuErrorStatus_t NVIC_ClearPendingIRQ(NVIC_IRQn_t Copy_enuIRQn);
 STD_enuErrorStatus_t NVIC_GetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Status);
 
 /**
+ * @brief Configure the number of group (and subsequently subgroup) priority bits
+ *        for all interrupts/events. (subgroup bits = 4 - group bits)
+ *
+ * @param[in]  Copy_u8GroupBits	: the Interrupt Request's index
+ *             Options          : FOUR_GROUP_PRI_BITS 
+ *                                THREE_GROUP_PRI_BITS
+ *                                TWO_GROUP_PRI_BITS  
+ *                                ONE_GROUP_PRI_BITS  
+ *                                ZERO_GROUP_PRI_BITS 
+ * 
+ * @return STD_enuErrorStatus_t : STD_enuOk 		  : Successful Operation
+ * 								  STD_enuInvalidValue : Invalid option for group bits
+ */
+STD_enuErrorStatus_t NVIC_ConfigPriorityBits(u8 Copy_u8GroupBits);
+
+/**
  * @brief Sets the priority of an interrupt or exception with configurable priority level
  *
  * @param[in]  Copy_enuIRQn   	: the Interrupt Request's index
- * @param[out] Copy_u8Priority 	: the desired priority level
+ * @param[in] Copy_u8Priority 	: the desired priority level
  *                                (this input represents the group priority and subgroup priority bits)
  *
  * @return STD_enuErrorStatus_t : STD_enuOk 		  : Successful Operation

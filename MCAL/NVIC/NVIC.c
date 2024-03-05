@@ -16,7 +16,14 @@
 /*===========================================================================================================*/
 /*												     Macros		 										     */
 /*===========================================================================================================*/
+#define SCB_AIRCR           *((volatile u32*)0xE000ED0C)
 #define NVIC                ((void*)0xE000E100)
+
+/*
+ * Mask for binary point selection bits 
+ * (The split of group priority from subpriority)
+ */
+#define SCB_AIRCR_BP_MASK   0x00000800
 
 #define REG_SIZE    		32
 #define PRIORITY_MASK		0X000000F0
@@ -174,10 +181,44 @@ STD_enuErrorStatus_t NVIC_GetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Sta
 }
 
 /**
+ * @brief Configure the number of group (and subsequently subgroup) priority bits
+ *        for all interrupts/events. (subgroup bits = 4 - group bits)
+ *
+ * @param[in]  Copy_u8GroupBits	: the Interrupt Request's index
+ *             Options          : FOUR_GROUP_PRI_BITS 
+ *                                THREE_GROUP_PRI_BITS
+ *                                TWO_GROUP_PRI_BITS  
+ *                                ONE_GROUP_PRI_BITS  
+ *                                ZERO_GROUP_PRI_BITS 
+ * 
+ * @return STD_enuErrorStatus_t : STD_enuOk 		  : Successful Operation
+ * 								  STD_enuInvalidValue : Invalid option for group bits
+ */
+STD_enuErrorStatus_t NVIC_ConfigPriorityBits(u8 Copy_u8GroupBits)
+{
+    STD_enuErrorStatus_t loc_enuErrorStatus = STD_enuOk;
+    u32 loc_u32Temp = SCB_AIRCR;
+
+    if((FOUR_GROUP_PRI_BITS == Copy_u8GroupBits)
+    || ((Copy_u8GroupBits >= THREE_GROUP_PRI_BITS) && (Copy_u8GroupBits <= ZERO_GROUP_PRI_BITS)))
+    {
+        loc_u32Temp &= ~SCB_AIRCR_BP_MASK;
+        loc_u32Temp |= Copy_u8GroupBits;
+        SCB_AIRCR = loc_u32Temp;
+    }
+    else
+    {
+        loc_enuErrorStatus = STD_enuInvalidValue;
+    }
+
+    return loc_enuErrorStatus;
+}
+
+/**
  * @brief Sets the priority of an interrupt or exception with configurable priority level
  *
  * @param[in]  Copy_enuIRQn   	: the Interrupt Request's index
- * @param[out] Copy_u8Priority 	: the desired priority level
+ * @param[in] Copy_u8Priority 	: the desired priority level
  *
  * @return STD_enuErrorStatus_t : STD_enuOk 		  : Successful Operation
  * 								  STD_enuInvalidValue : Invalid IRQ index

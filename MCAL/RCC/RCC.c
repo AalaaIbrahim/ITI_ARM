@@ -18,6 +18,10 @@
 /*												     Macros		 										     */
 /*===========================================================================================================*/
 
+/*===========================================================================================================*/
+/*										  	   Global Variables											     */
+/*===========================================================================================================*/
+void (*Add_TimClkUpdate[NUMBER_OF_SYSTEM_TIMERS])(void) = {NULL};
 
 /*===========================================================================================================*/
 /*										  	  API Implementations											 */
@@ -70,6 +74,19 @@ STD_enuErrorStatus_t RCC_enuSelectSysClk(RCC_enuClkIndex_t Copy_enuClock)
 			{
 				RCC->CFGR &= (SYS_CLK_SELECT_MASK<<SYS_CLK_REG_OFFSET);
 				RCC->CFGR |= Copy_enuClock;
+
+				/* Update Clock Value in Relevant Modules */
+				for(int i=ZERO; i<NUMBER_OF_SYSTEM_TIMERS; i++)
+				{
+					if(NULL != Add_TimClkUpdate[i])
+					{
+						Add_TimClkUpdate[i]();
+					}
+					else
+					{
+						/* Do Nothing */
+					}
+				}
 			}
 			else
 			{
@@ -399,4 +416,66 @@ STD_enuErrorStatus_t RCC_enuConfigurePLL(RCC_strPLLConfig_t* Add_strPLLConfig)
 	}
 
 	return Local_enuErrorStatus;
+}
+
+f32 RCC_f32GetSysClkSpeed(void) 
+{
+	f32 loc_f32SysClk = ZERO;
+	u8 loc_SpeedSrcPLL = ZERO;
+    u32 loc_u32plln = ZERO;
+	u32 loc_u32pllp = ZERO;
+	u32 loc_u32SrcPLL=ZERO;
+	u32 loc_u32pllm = ZERO;
+    
+    if ((RCC->CFGR & ~(SYS_CLK_SELECT_MASK)) == RCC_PLL_CLK) 
+	{
+		loc_u32SrcPLL = (RCC->PLLCFGR & PLL_CLK_MASK)>>PLL_CLK_OFFSET;
+    	loc_u32pllm = (RCC->PLLCFGR & PLL_M_MASK)>>PLL_M_OFFSET;
+    	loc_u32plln = (RCC->PLLCFGR & PLL_N_MASK)>>PLL_N_OFFSET;
+    	loc_u32pllp = (RCC->PLLCFGR & PLL_P_MASK)>>PLL_P_OFFSET;
+        
+		loc_SpeedSrcPLL = (loc_u32SrcPLL == RCC_HSI_CLK)? HSI_CLK_SPEED_MHZ : HSI_CLK_SPEED_MHZ;
+
+        loc_f32SysClk =  (loc_SpeedSrcPLL*loc_u32plln) / (loc_u32pllm * loc_u32pllp);
+    } 
+	else 
+	{
+        loc_f32SysClk = ((RCC->CFGR & SYS_CLK_SELECT_MASK) == RCC_HSI_CLK) ? HSI_CLK_SPEED_MHZ : HSE_CLK_SPEED_MHZ;
+    }
+    
+    return loc_f32SysClk;
+}
+
+/**
+ * @brief Set a function to call whenever the system clock is changed
+ * 
+ * This function is used to update the peripheral/module of the given index, if needed, with 
+ * the new value of the system clock.
+ * Should be used with modules that depend on system clock value in their operation.
+ * It should be called by the give module's handler 
+ * 		  
+ * @param[in] Copy_u8Peripheral : Index of the peripheral
+ * @param[in] Add_Callback   	: address of the callback function
+ *
+ * @return STD_enuErrorStatus_t : STD_enuOk 	 : Successful Operation
+ * 								  STD_enuNullPtr : Add_Callback is a NULL pointer
+ */
+STD_enuErrorStatus_t RCC_enuSetCBF(u8 Copy_u8Peripheral, void (*Add_Callback)(void))
+{
+	STD_enuErrorStatus_t Local_enuErrorStatus = STD_enuOk;
+
+	if(Copy_u8Peripheral >= NUMBER_OF_SYSTEM_TIMERS)
+	{
+		Local_enuErrorStatus = STD_enuInvalidValue;
+	}
+	else if(NULL != Add_Callback)
+	{
+		Add_TimClkUpdate[Copy_u8Peripheral] = Add_Callback;
+	}
+	else
+	{
+		Local_enuErrorStatus = STD_enuNullPtr;
+	}
+
+	return Local_enuErrorStatus;	
 }

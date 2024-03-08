@@ -16,6 +16,12 @@
 /*===========================================================================================================*/
 /*												     Macros		 										     */
 /*===========================================================================================================*/
+#define NUMBER_OF_SYSTEM_TIMERS			5
+
+/* Indices of timers in the system */
+#define SYSTICK_INDEX					0
+
+
 #define RCC_DISABLE 		1
 #define RCC_ENABLE 			2
 
@@ -212,5 +218,23 @@ STD_enuErrorStatus_t RCC_enuSetPeripheralClk(RCC_enuPeripheralIndex_t Copy_enuPe
  * 								 RCC_enuConfigFailed : if the PLL is already running
  */
 STD_enuErrorStatus_t RCC_enuConfigurePLL(RCC_strPLLConfig_t* Add_strPLLConfig);
+
+f32 RCC_f32GetSysClkSpeed(void); 
+
+/**
+ * @brief Set a function to call whenever the system clock is changed
+ * 
+ * This function is used to update the peripheral/module of the given index, if needed, with 
+ * the new value of the system clock.
+ * Should be used with modules that depend on system clock value in their operation.
+ * It should be called by the give module's handler 
+ * 		  
+ * @param[in] Copy_u8Peripheral : Index of the peripheral
+ * @param[in] Add_Callback   	: address of the callback function
+ *
+ * @return STD_enuErrorStatus_t : STD_enuOk 	 : Successful Operation
+ * 								  STD_enuNullPtr : Add_Callback is a NULL pointer
+ */
+STD_enuErrorStatus_t RCC_enuSetCBF(u8 Copy_u8Peripheral, void (*Add_Callback)(void));
 
 #endif /* RCC_RCC_H_ */

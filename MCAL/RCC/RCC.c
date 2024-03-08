@@ -8,11 +8,11 @@
 /*												    Includes		 										 */
 /*===========================================================================================================*/
 
-#include "LIB/STD_TYPES.h"
-#include "LIB/BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
 
-#include "MCAL/RCC/RCC_private.h"
-#include "MCAL/RCC/RCC.h"
+#include "RCC_private.h"
+#include "RCC.h"
 
 /*===========================================================================================================*/
 /*												     Macros		 										     */

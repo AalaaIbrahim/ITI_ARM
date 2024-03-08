@@ -9,14 +9,14 @@
 /*===========================================================================================================*/
 /*						  Includes	    		    			     */
 /*===========================================================================================================*/
-#include "LIB/STD_TYPES.h"
-#include "LIB/BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
 
-#include "MCAL/RCC/RCC.h"
-#include "MCAL/GPIO/GPIO.h"
+#include "RCC.h"
+#include "GPIO.h"
 
-#include "HAL/LED/LED.h"
-#include "HAL/LED/LED_cfg.h"
+#include "LED.h"
+#include "LED_cfg.h"
 
 /*===========================================================================================================*/
 /*					      Global Variables    		    			     */

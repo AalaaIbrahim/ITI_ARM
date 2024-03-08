@@ -8,10 +8,10 @@
 /*												    Includes		 										 */
 /*===========================================================================================================*/
 
-#include "LIB/STD_TYPES.h"
-#include "LIB/BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
 
-#include "MCAL/NVIC/NVIC.h"
+#include "NVIC.h"
 
 /*===========================================================================================================*/
 /*												     Macros		 										     */
@@ -19,11 +19,13 @@
 #define SCB_AIRCR           *((volatile u32*)0xE000ED0C)
 #define NVIC                ((void*)0xE000E100)
 
+#define VECT_KEY            0x05FA0000
+
 /*
  * Mask for binary point selection bits 
  * (The split of group priority from subpriority)
  */
-#define SCB_AIRCR_BP_MASK   0x00000800
+#define SCB_AIRCR_KEY_BP_MASK   0xFFFF0800
 
 #define REG_SIZE    		32
 #define PRIORITY_MASK		0X000000F0

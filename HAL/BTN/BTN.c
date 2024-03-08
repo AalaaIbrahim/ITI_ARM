@@ -11,12 +11,12 @@
 /*===========================================================================================================*/
 //#include "LIB/STD_TYPES.h"
 
-#include "../../../include/MCAL/RCC/RCC.h"
-#include "../../../include/MCAL/GPIO/GPIO.h"
+#include "RCC.h"
+#include "GPIO.h"
 //#include "UTIL/DELAY/DELAY.h"
 
-#include "../../../include/HAL/BTN/BTN.h"
-#include "../../../include/HAL/BTN/BTN_cfg.h"
+#include "BTN.h"
+#include "BTN_cfg.h"
 
 /*===========================================================================================================*/
 /*						Global Variables    		    			     */

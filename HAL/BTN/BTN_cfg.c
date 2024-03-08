@@ -6,12 +6,12 @@
  * @date    :   19-02-2024
  */
 
-#include "../../../include/LIB/STD_TYPES.h"
+#include "STD_TYPES.h"
 
-#include "../../../include/MCAL/GPIO/GPIO.h"
+#include "GPIO.h"
 
-#include "../../../include/HAL/BTN/BTN.h"
-#include "../../../include/HAL/BTN/BTN_cfg.h"
+#include "BTN.h"
+#include "BTN_cfg.h"
 
 const BTN_stConfig_t BTN_stConfigArr[NUMBER_OF_BTNS] =
 {

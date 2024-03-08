@@ -68,7 +68,7 @@ STD_enuErrorStatus_t NVIC_EnableIRQ(NVIC_IRQn_t Copy_enuIRQn)
 
     if(Copy_enuIRQn < TOTAL_IRQs)
     {
-        ((NVIC_t*)NVIC)->ISER[Copy_enuIRQn/REG_SIZE] |= (1 << (Copy_enuIRQn%REG_SIZE));
+        ((NVIC_t*)NVIC)->ISER[Copy_enuIRQn/REG_SIZE] = (1 << (Copy_enuIRQn%REG_SIZE));
     }
     else
     {
@@ -92,7 +92,7 @@ STD_enuErrorStatus_t NVIC_DisableIRQ(NVIC_IRQn_t Copy_enuIRQn)
 
     if(Copy_enuIRQn < TOTAL_IRQs)
     {
-        ((NVIC_t*)NVIC)->ICER[Copy_enuIRQn/REG_SIZE] |= (1 << (Copy_enuIRQn%REG_SIZE));
+        ((NVIC_t*)NVIC)->ICER[Copy_enuIRQn/REG_SIZE] = (1 << (Copy_enuIRQn%REG_SIZE));
     }
     else
     {
@@ -116,7 +116,7 @@ STD_enuErrorStatus_t NVIC_SetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn)
 
     if(Copy_enuIRQn < TOTAL_IRQs)
     {
-        ((NVIC_t*)NVIC)->ISPR[Copy_enuIRQn/REG_SIZE] |= (1 << (Copy_enuIRQn%REG_SIZE));
+        ((NVIC_t*)NVIC)->ISPR[Copy_enuIRQn/REG_SIZE] = (1 << (Copy_enuIRQn%REG_SIZE));
     }
     else
     {
@@ -140,7 +140,7 @@ STD_enuErrorStatus_t NVIC_ClearPendingIRQ(NVIC_IRQn_t Copy_enuIRQn)
 
     if(Copy_enuIRQn < TOTAL_IRQs)
     {
-        ((NVIC_t*)NVIC)->ICPR[Copy_enuIRQn/REG_SIZE] |= (1 << (Copy_enuIRQn%REG_SIZE));
+        ((NVIC_t*)NVIC)->ICPR[Copy_enuIRQn/REG_SIZE] = (1 << (Copy_enuIRQn%REG_SIZE));
     }
     else
     {

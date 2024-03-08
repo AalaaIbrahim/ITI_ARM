@@ -184,7 +184,7 @@ STD_enuErrorStatus_t NVIC_GetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Sta
  * @brief Configure the number of group (and subsequently subgroup) priority bits
  *        for all interrupts/events. (subgroup bits = 4 - group bits)
  *
- * @param[in]  Copy_u8GroupBits	: the Interrupt Request's index
+ * @param[in]  Copy_u32GroupBits: the Interrupt Request's index
  *             Options          : FOUR_GROUP_PRI_BITS 
  *                                THREE_GROUP_PRI_BITS
  *                                TWO_GROUP_PRI_BITS  
@@ -194,16 +194,16 @@ STD_enuErrorStatus_t NVIC_GetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Sta
  * @return STD_enuErrorStatus_t : STD_enuOk 		  : Successful Operation
  * 								  STD_enuInvalidValue : Invalid option for group bits
  */
-STD_enuErrorStatus_t NVIC_ConfigPriorityBits(u8 Copy_u8GroupBits)
+STD_enuErrorStatus_t NVIC_ConfigPriorityBits(u32 Copy_u32GroupBits)
 {
     STD_enuErrorStatus_t loc_enuErrorStatus = STD_enuOk;
     u32 loc_u32Temp = SCB_AIRCR;
 
-    if((FOUR_GROUP_PRI_BITS == Copy_u8GroupBits)
-    || ((Copy_u8GroupBits >= THREE_GROUP_PRI_BITS) && (Copy_u8GroupBits <= ZERO_GROUP_PRI_BITS)))
+    if((FOUR_GROUP_PRI_BITS == Copy_u32GroupBits)
+    || ((Copy_u32GroupBits >= THREE_GROUP_PRI_BITS) && (Copy_u32GroupBits <= ZERO_GROUP_PRI_BITS)))
     {
-        loc_u32Temp &= ~SCB_AIRCR_BP_MASK;
-        loc_u32Temp |= Copy_u8GroupBits;
+        loc_u32Temp &= ~SCB_AIRCR_KEY_BP_MASK;
+        loc_u32Temp |= (VECT_KEY | Copy_u32GroupBits);
         SCB_AIRCR = loc_u32Temp;
     }
     else

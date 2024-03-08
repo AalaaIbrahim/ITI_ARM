@@ -167,7 +167,7 @@ STD_enuErrorStatus_t NVIC_GetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Sta
  * @brief Configure the number of group (and subsequently subgroup) priority bits
  *        for all interrupts/events. (subgroup bits = 4 - group bits)
  *
- * @param[in]  Copy_u8GroupBits	: the Interrupt Request's index
+ * @param[in]  Copy_u32GroupBits: the Interrupt Request's index
  *             Options          : FOUR_GROUP_PRI_BITS 
  *                                THREE_GROUP_PRI_BITS
  *                                TWO_GROUP_PRI_BITS  
@@ -177,7 +177,7 @@ STD_enuErrorStatus_t NVIC_GetPendingIRQ(NVIC_IRQn_t Copy_enuIRQn, u8* Add_pu8Sta
  * @return STD_enuErrorStatus_t : STD_enuOk 		  : Successful Operation
  * 								  STD_enuInvalidValue : Invalid option for group bits
  */
-STD_enuErrorStatus_t NVIC_ConfigPriorityBits(u8 Copy_u8GroupBits);
+STD_enuErrorStatus_t NVIC_ConfigPriorityBits(u32 Copy_u32GroupBits);
 
 /**
  * @brief Sets the priority of an interrupt or exception with configurable priority level
